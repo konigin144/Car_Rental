@@ -10,6 +10,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table (name = "Rents")
+@NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Rent {
@@ -17,7 +18,9 @@ public class Rent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id")
     private Integer id;
+    @NonNull
     private Integer car_id;
+    @NonNull
     private Integer client_id;
 
     @Column (name = "rent_date")
@@ -26,9 +29,4 @@ public class Rent {
 
     @Column (name = "return_date")
     private Date returndate;
-
-    public Rent (Integer car_id, Integer client_id) {
-        this.car_id = car_id;
-        this.client_id = client_id;
-    }
 }

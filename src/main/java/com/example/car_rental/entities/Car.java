@@ -1,11 +1,14 @@
 package com.example.car_rental.entities;
 
 import javax.persistence.*;
+
+import com.sun.istack.NotNull;
 import lombok.*;
 
 @Data
 @Entity
 @Table (name = "Cars")
+@NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Car {
@@ -13,37 +16,10 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id")
     private Integer id;
+    @NonNull
     private String brand;
+    @NonNull
     private String model;
+    @NonNull
     private Boolean available;
-
-    public Car(String brand, String model, Boolean available) {
-        this.brand = brand;
-        this.model = model;
-        this.available = available;
-    }
-
-    public String getBrand() {
-        return this.brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return this.model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public Boolean getAvailable() {
-        return this.available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
 }
