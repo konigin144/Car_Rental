@@ -24,3 +24,5 @@ Database contains three tables: <b>Cars</b>, <b>Clients</b> and <b>Rents</b>. Da
 * `PATCH /rent/{id}` sets the rent specified by `id` as returned: sets `returndate` to current time and sets car as available; returns 200 if updated, 400 otherwise
 * `PUT /rent/{id}` updates existing rent specified by given `id` with parameters `car_id` and `client_id` given in body, returns 200 if updated, 400 otherwise  
 * `DELETE /rent/{id}` deletes existing rent specified by givem `id`, returns 200 if deleted, 400 otherwise  
+
+Link to Postman collection: https://go.postman.co/workspace/Team-Workspace~5487a2bb-4b46-4659-88e9-5ed71bd85a7e/collection/11539571-9788c0b5-fee4-437c-a76e-08d25ee6460c  
