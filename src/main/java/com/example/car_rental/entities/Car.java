@@ -22,4 +22,28 @@ public class Car {
         this.model = model;
         this.available = available;
     }
+
+    public String getBrand() {
+        return this.brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return this.model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Boolean getAvailable() {
+        return this.available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
 }
