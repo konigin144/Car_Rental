@@ -6,6 +6,8 @@ import lombok.*;
 @Data
 @Entity
 @Table (name = "Cars")
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,4 +15,11 @@ public class Car {
     private Integer id;
     private String brand;
     private String model;
+    private Boolean available;
+
+    public Car(String brand, String model, Boolean available) {
+        this.brand = brand;
+        this.model = model;
+        this.available = available;
+    }
 }

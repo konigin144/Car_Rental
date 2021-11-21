@@ -23,7 +23,12 @@ public class CarController {
 
     @GetMapping(value = "/{id}")
     public Car getCarById(@PathVariable Integer id) {
-        return carService.getCarById(id);
+        Car car = carService.getCarById(id);
+        if (car != null) {
+            return car;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong");
+        }
     }
 
     @PostMapping(value = "")
@@ -36,7 +41,7 @@ public class CarController {
     }
 
     @PutMapping(value = "/{id}")
-    public void putCar(@RequestBody Car car, @PathVariable Integer id) {
+    public void updateCar(@RequestBody Car car, @PathVariable Integer id) {
         if (carService.updateCar(id, car)) {
             throw new ResponseStatusException(HttpStatus.OK, "Car updated");
         } else {

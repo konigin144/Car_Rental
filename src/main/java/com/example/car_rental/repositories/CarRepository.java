@@ -6,12 +6,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car, Integer> {
-
-
-//    Car getCarById (Integer id);
-//    List<Car> getAllCars();
-//    List<Car> getCarsByBrand(String brand);
-//    boolean addCar (Car car);
-//    boolean deleteCar (Car car);
-}
+public interface CarRepository extends JpaRepository<Car, Integer> { }

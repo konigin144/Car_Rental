@@ -23,7 +23,12 @@ public class ClientController {
 
     @GetMapping(value = "/{id}")
     public Client getClientById(@PathVariable Integer id) {
-        return clientService.getClientById(id);
+        Client client = clientService.getClientById(id);
+        if (client != null) {
+            return client;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong");
+        }
     }
 
     @PostMapping(value = "")

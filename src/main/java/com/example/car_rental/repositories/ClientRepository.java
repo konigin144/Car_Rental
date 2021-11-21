@@ -6,9 +6,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Integer> {
-//    Client getClientById (Integer id);
-//    List<Client> getAllClients();
-//    boolean addClient (Client client);
-//    boolean deleteClient (Client client);
-}
+public interface ClientRepository extends JpaRepository<Client, Integer> { }

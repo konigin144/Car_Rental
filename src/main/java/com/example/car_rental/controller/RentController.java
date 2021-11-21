@@ -23,7 +23,12 @@ public class RentController {
 
     @GetMapping(value = "/{id}")
     public Rent getRentById(@PathVariable Integer id) {
-        return rentService.getRentById(id);
+        Rent rent = rentService.getRentById(id);
+        if (rent != null) {
+            return rent;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong");
+        }
     }
 
     @PostMapping(value = "")
@@ -38,6 +43,15 @@ public class RentController {
     @PutMapping(value = "/{id}")
     public void putRent(@RequestBody Rent Rent, @PathVariable Integer id) {
         if (rentService.updateRent(id, Rent)) {
+            throw new ResponseStatusException(HttpStatus.OK, "Rent updated");
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong");
+        }
+    }
+
+    @PatchMapping(value = "/{id}")
+    public void returnRent(@PathVariable Integer id) {
+        if (rentService.returnRent(id)) {
             throw new ResponseStatusException(HttpStatus.OK, "Rent updated");
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something went wrong");

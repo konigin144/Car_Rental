@@ -13,7 +13,11 @@ public class ClientService {
     private ClientRepository rep;
 
     public Client getClientById(Integer id) {
-        return rep.findById(id).get();
+        try {
+            return rep.findById(id).get();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Client> getAllClients() {
