@@ -35,11 +35,14 @@ public class ClientControllerUnitTests {
 
     @Test
     void getAllClients() throws Exception {
+        // given
         Client client1 = new Client(1, "Anna", "Nowak");
         Client client2 = new Client(2, "Adam", "Kowalski");
 
+        // when
         doReturn(Lists.newArrayList(client1, client2)).when(clientsRepository).findAll();
 
+        // then
         mvc.perform(get("/client")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -54,10 +57,13 @@ public class ClientControllerUnitTests {
 
     @Test
     void getClientByIdExists() throws Exception {
+        // given
         Client client = new Client(1, "Anna", "Nowak");
 
+        // when
         doReturn(Optional.of(client)).when(clientsRepository).findById(1);
 
+        // then
         mvc.perform(get("/client/1")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -68,8 +74,10 @@ public class ClientControllerUnitTests {
 
     @Test
     void getClientByIdNotExists() throws Exception {
+        // when
         when(clientsRepository.existsById(1)).thenReturn(false);
 
+        // then
         mvc.perform(get("/client/3")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
@@ -77,11 +85,14 @@ public class ClientControllerUnitTests {
 
     @Test
     void addClient() throws Exception {
+        // given
         Client client = new Client(1, "Anna", "Nowak");
         String request = om.writeValueAsString(client);
 
+        // when
         doReturn(client).when(clientsRepository).save(client);
 
+        // then
         mvc.perform(post("/client")
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -90,13 +101,16 @@ public class ClientControllerUnitTests {
 
     @Test
     void updateClientExists() throws Exception {
+        // given
         Client client = new Client(1, "Anna", "Nowak");
         String request = om.writeValueAsString(client);
 
+        // when
         doReturn(Optional.of(client)).when(clientsRepository).findById(1);
         doReturn(client).when(clientsRepository).save(any());
         when(clientsRepository.existsById(1)).thenReturn(true);
 
+        // then
         mvc.perform(put("/client/1")
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -105,12 +119,15 @@ public class ClientControllerUnitTests {
 
     @Test
     void updateClientNotExists() throws Exception {
+        // given
         Client client = new Client(1, "Anna", "Nowak");
         String request = om.writeValueAsString(client);
 
+        // when
         doReturn(Optional.of(client)).when(clientsRepository).findById(1);
         doReturn(client).when(clientsRepository).save(any());
 
+        // then
         mvc.perform(put("/client/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -118,11 +135,14 @@ public class ClientControllerUnitTests {
 
     @Test
     void deleteClientExists() throws Exception {
+        // given
         Client client = new Client(1, "Anna", "Nowak");
 
+        // when
         doReturn(client).when(clientsRepository).save(client);
         when(clientsRepository.existsById(1)).thenReturn(true);
 
+        // then
         mvc.perform(delete("/client/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

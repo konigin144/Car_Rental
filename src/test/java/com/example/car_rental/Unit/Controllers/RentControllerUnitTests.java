@@ -38,12 +38,15 @@ public class RentControllerUnitTests {
 
     @Test
     void getAllRents() throws Exception {
+        // given
         Date date = new java.util.Date();
         Rent rent1 = new Rent(1,12,13, date, date);
         Rent rent2 = new Rent(2, 22, 23, date, date);
 
+        // when
         doReturn(Lists.newArrayList(rent1, rent2)).when(rentRepository).findAll();
 
+        // then
         mvc.perform(get("/rent")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -59,11 +62,14 @@ public class RentControllerUnitTests {
 
     @Test
     void getRentByIdExists() throws Exception {
+        // given
         Date date = new java.util.Date();
         Rent rent = new Rent(1,12,13, date, date);
 
+        // when
         doReturn(Optional.of(rent)).when(rentRepository).findById(1);
 
+        // then
         mvc.perform(get("/rent/1")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -74,8 +80,10 @@ public class RentControllerUnitTests {
 
     @Test
     void getRentByIdNotExists() throws Exception {
+        // when
         when(rentRepository.existsById(1)).thenReturn(false);
 
+        // then
         mvc.perform(get("/rent/3")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
@@ -83,14 +91,17 @@ public class RentControllerUnitTests {
 
     @Test
     void updateRentExists() throws Exception {
+        // given
         Date date = new java.util.Date();
         Rent rent = new Rent(1,12,13, date, date);
         String request = om.writeValueAsString(rent);
 
+        // when
         doReturn(Optional.of(rent)).when(rentRepository).findById(1);
         doReturn(rent).when(rentRepository).save(any());
         when(rentRepository.existsById(1)).thenReturn(true);
 
+        // then
         mvc.perform(put("/rent/1")
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -99,13 +110,16 @@ public class RentControllerUnitTests {
 
     @Test
     void updateRentNotExists() throws Exception {
+        // given
         Date date = new java.util.Date();
         Rent rent = new Rent(1,12,13, date, date);
         String request = om.writeValueAsString(rent);
 
+        // when
         doReturn(Optional.of(rent)).when(rentRepository).findById(1);
         doReturn(rent).when(rentRepository).save(any());
 
+        // then
         mvc.perform(put("/rent/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -113,12 +127,15 @@ public class RentControllerUnitTests {
 
     @Test
     void deleteRentExists() throws Exception {
+        // given
         Date date = new java.util.Date();
         Rent rent = new Rent(1,12,13, date, date);
 
+        // when
         doReturn(rent).when(rentRepository).save(rent);
         when(rentRepository.existsById(1)).thenReturn(true);
 
+        // then
         mvc.perform(delete("/rent/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

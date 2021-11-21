@@ -35,11 +35,14 @@ public class CarControllerUnitTests {
 
     @Test
     void getAllCars() throws Exception {
+        // given
         Car car1 = new Car(1,"Toyota","Yaris", true);
         Car car2 = new Car(2,"Renault","Clio",false);
 
+        // when
         doReturn(Lists.newArrayList(car1,car2)).when(carsRepository).findAll();
 
+        // then
         mvc.perform(get("/car")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -56,10 +59,13 @@ public class CarControllerUnitTests {
 
     @Test
     void getCarByIdExists() throws Exception {
+        // given
         Car car = new Car(1,"Toyota","Yaris", true);
 
+        // when
         doReturn(Optional.of(car)).when(carsRepository).findById(1);
 
+        // then
         mvc.perform(get("/car/1")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -71,8 +77,10 @@ public class CarControllerUnitTests {
 
     @Test
     void getCarByIdNotExists() throws Exception {
+        // when
         when(carsRepository.existsById(1)).thenReturn(false);
 
+        // then
         mvc.perform(get("/car/3")
                 .content(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
@@ -80,11 +88,14 @@ public class CarControllerUnitTests {
 
     @Test
     void addCar() throws Exception {
+        // given
         Car car = new Car(1,"Toyota","Yaris", true);
         String request = om.writeValueAsString(car);
 
+        // when
         doReturn(car).when(carsRepository).save(car);
 
+        // then
         mvc.perform(post("/car")
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -93,16 +104,17 @@ public class CarControllerUnitTests {
 
     @Test
     void updateCarExists() throws Exception {
+        // given
         Car car1 = new Car(1,"Toyota","Yaris", true);
         Car car2 = new Car(1,"Renault","Clio",false);
         String request = om.writeValueAsString(car2);
 
-       // doReturn(car1).when(carsRepository).save(car1);
-
+        // when
         doReturn(Optional.of(car2)).when(carsRepository).findById(1);
         doReturn(car2).when(carsRepository).save(any());
         when(carsRepository.existsById(1)).thenReturn(true);
 
+        // then
         mvc.perform(put("/car/1")
                 .content(request)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -111,12 +123,15 @@ public class CarControllerUnitTests {
 
     @Test
     void updateCarNotExists() throws Exception {
+        // given
         Car car = new Car(1,"Renault","Clio",false);
         String request = om.writeValueAsString(car);
 
+        // when
         doReturn(Optional.of(car)).when(carsRepository).findById(1);
         doReturn(car).when(carsRepository).save(any());
 
+        // then
         mvc.perform(put("/car/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -124,11 +139,14 @@ public class CarControllerUnitTests {
 
     @Test
     void deleteCarExists() throws Exception {
+        // given
         Car car = new Car(1,"Toyota","Yaris", true);
 
+        // when
         doReturn(car).when(carsRepository).save(car);
         when(carsRepository.existsById(1)).thenReturn(true);
 
+        // then
         mvc.perform(delete("/car/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
